@@ -1253,35 +1253,6 @@
     document.getElementById('tillFields')?.style.setProperty('display', val === 'till' ? 'block' : 'none');
   });
 <!-- Main Payment Button -->
-paypal.Buttons({
-  createOrder: function(data, actions) {
-    const priceValue = document.getElementById('price')?.value.replace('$', '') || '0';
-    return actions.order.create({
-      purchase_units: [{
-        amount: { value: priceValue }
-      }]
-    });
-  },
-  onApprove: function(data, actions) {
-    return actions.order.capture().then(function(details) {
-      // ✅ Log transaction details
-      console.log('Main Payment - Transaction Completed!');
-      console.log('Payer Name:', details.payer.name?.given_name);
-      console.log('Payer Email:', details.payer.email_address);
-      console.log('Transaction ID:', details.id);
-      console.log('Status:', details.status);
-
-      alert('Transaction completed by ' + (details.payer.name?.given_name || 'payer'));
-
-      // ✅ Submit form (if exists)
-      form?.submit();
-    });
-  },
-  onError: function(err) {
-    console.error('Main Payment Error:', err);
-    alert('No Payement yet');
-  }
-}).render('#paypal-button-container');
 
 //  donate button
 paypal.Buttons({
