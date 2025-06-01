@@ -54,229 +54,243 @@
         </div>
     </section>
 
-    <!-- Booking Modal -->
-    <div id="bookingModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <span class="back">&#8592;</span>
-            <h2>Book Your Dream Trip</h2>
-            <form id="bookingForm">
-                <div class="form-group">
-                    <label for="name">Full Name:</label>
-                    <input type="text" id="name" name="name" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                <div class="form-group">
-                    <label for="destination">Destination:</label>
-                    <select id="destination" name="destination" required onchange="updatePrice()" style="background-color: black;color:whitesmoke">
-                        <option value="">Select a destination</option>
-                        <option value="paris">Paris, France - $1000</option>
-                        <option value="tokyo">Tokyo, Japan - $1200</option>
-                        <option value="newyork">New York, USA - $800</option>
-                        <option value="bali">Bali, Indonesia - $900</option>
-                        <option value="rome">Rome, Italy - $1100</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="price">Price:</label>
-                    <input type="text" id="price" name="price" readonly>
-                </div>
-                <div class="form-group">
-                    <label for="departureDate">Departure Date:</label>
-                    <input type="date" id="departureDate" name="departureDate" required>
-                </div>
-                <div class="form-group">
-                    <label for="returnDate">Return Date:</label>
-                    <input type="date" id="returnDate" name="returnDate" required>
-                    <span id="dateError" class="error"></span>
-                </div>
-                <div class="form-group">
-                    <label for="travelers">Number of Travelers:</label>
-                    <input type="number" id="travelers" name="travelers" min="1" required>
-                </div>
-                <div class="form-group">
-                    <label for="paymentMethod">Payment Method:</label>
-                    <select id="paymentMethod" name="paymentMethod" required onchange="togglePaymentFields()" style="background-color: black; color:whitesmoke;">
-                        <option value="">Payment Options</option>
-                        <option value="mpesa">M-Pesa</option>
-                        <option value="donate">PayPal or card ~~~ Recommended </option>
-                        <option value="venmo">Venmo</option>
-                        <option value="cashapp">CashApp</option>
-                        <option value="moneygram">MoneyGram</option>
-                        <option value="sendwave">Sendwave</option>
-                        <option value="wise">Wise</option>
-                        <option value="bitcoin">Bitcoin</option>
-                        <!-- <option value="paypal">PayPal or card ~~~ Recommended</option> -->
-                    </select>
-                </div>
-                <!-- M-Pesa Fields -->
-                <div id="mpesaFields" style="display: none;">
-                    <div class="form-group">
-                        <label for="mpesaAccountNumber">M-Pesa Account Number:</label>
-                        <input type="text" id="mpesaAccountNumber" name="mpesaAccountNumber" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="mpesaOption">M-Pesa Payment Option:</label>
-                        <select id="mpesaOption" name="mpesaOption" required>
-                            <option value="paybill">Paybill</option>
-                            <option value="till">Till Number</option>
-                            <option value="mpesaNumber">M-Pesa Number</option>
-                        </select>
-                    </div>
-                    <div class="form-group" id="paybillFields" style="display: none;">
-                        <label for="paybillNumber">Paybill Number:</label>
-                        <input type="text" id="paybillNumber" value="123456" readonly>
-                    </div>
-                    <div class="form-group" id="tillFields" style="display: none;">
-                        <label for="tillNumber">Till Number:</label>
-                        <input type="text" id="tillNumber" value="654321" readonly>
-                    </div>
-                </div>
-                <!-- Venmo Fields -->
-                <div id="venmoFields" class="payment-fields" style="display: none;">
-                    <div class="form-group">
-                        <label for="venmoUsername">Pay to Venmo Account:</label>
-                        <input type="text" id="venmoUsername" name="venmoUsername" value="@YourVenmoUsername" readonly>
-                        <button type="button" class="copy-btn" data-copy="#venmoUsername">Copy</button>
-                        <small>Open Venmo and send payment to <b>@YourVenmoUsername</b>. After payment, enter your Venmo transaction ID below.</small>
-                        <input type="text" id="venmoTxnId" name="venmoTxnId" placeholder="Venmo Transaction ID" required>
-                    </div>
-                </div>
-<!-- PayPal Fields -->
-<div id="paypalFields" class="payment-fields" style="display: none;">
-    <div class="form-group">
-        <label for="paypalEmail">PayPal Email:</label>
-        <input type="email" id="paypalEmail" name="paypalEmail" value="ondakocollins@gmail.com" readonly>
-        <button type="button" class="copy-btn" data-copy="#paypalEmail">Copy</button>
-        <small>
-            Send payment to <b>ondakocollins@gmail.com</b> via PayPal or use the button below. After payment, enter your PayPal transaction ID below.
-        </small>
-    </div>
-
-</div>
-
-               <!-- Donate Fields -->
-                <div id="donateFields" class="payment-fields" style="display: none;">
-                    <!-- Optional Name and Message -->
-                    <div class="form-group">
-                        <label for="donorName">Your Name (optional):</label>
-                        <input type="text" id="donorName" name="donorName" placeholder="Your name">
-                    </div>
-                    <div class="form-group">
-                        <label for="donorMessage">Message (optional):</label>
-                        <textarea id="donorMessage" name="donorMessage" rows="2" placeholder="Leave a message"></textarea>
-                    </div>
-                
-                    <!-- Info Messages -->
-                    <div class="form-group">
-                        <small>
-                            <span id="donate-thankyou-msg" style="display:none;color:green;font-weight:600;">
-                                <i class="fas fa-heart"></i> Thank you for supporting GlobeTrotters!
-                            </span>
-                            <span id="donate-info-msg">
-                                Your donation helps us provide better services and support more travelers worldwide.
-                            </span>
-                        </small>
-                    </div>
-                
-                    <!-- Amount Input -->
-                    <div class="form-group">
-                        <label for="donationAmount">Donation Amount (USD):</label>
-                        <input type="number" id="donationAmount" name="donationAmount" min="1" placeholder="Enter amount" required>
-                    </div>
-                
-    <!-- PayPal Smart Buttons -->
-    <div class="form-group">
-        <div id="paypal-donate-button-container"></div>
-    </div>
-</div>
-
-                <!-- CashApp Fields -->
-                <div id="cashappFields" class="payment-fields" style="display: none;">
-                    <div class="form-group">
-                        <label for="cashappUsername">Pay to CashApp Account:</label>
-                        <input type="text" id="cashappUsername" name="cashappUsername" value="$ Coming soon" readonly>
-                        <button type="button" class="copy-btn" data-copy="#cashappUsername">Copy</button>
-                        <small>Send payment to <b>$ coming soon</b> in CashApp. Enter your CashApp payment reference below.</small>
-                        <input type="text" id="cashappTxnId" name="cashappTxnId" placeholder="CashApp Reference" required>
-                    </div>
-                </div>
-                
-                <!-- Sendwave Fields -->
-                <div id="sendwaveFields" class="payment-fields" style="display: none;">
-                    <div class="form-group">
-                        <label for="sendwavePhoneNumber">Pay to Sendwave Account:</label>
-                        <input type="text" id="sendwavePhoneNumber" name="sendwavePhoneNumber" value="+1234567890" readonly>
-                        <button type="button" class="copy-btn" data-copy="#sendwavePhoneNumber">Copy</button>
-                        <small>Send payment to <b>+1234567890</b> via Sendwave. Enter your Sendwave reference below.</small>
-                        <input type="text" id="sendwaveRef" name="sendwaveRef" placeholder="Sendwave Reference" required>
-                    </div>
-                </div>
-                <!-- Wise Fields -->
-                <div id="wiseFields" class="payment-fields" style="display: none;">
-                    <div class="form-group">
-                        <label for="wiseEmail">Wise Pay Account:</label>
-                        <input type="email" id="wiseEmail" name="wiseEmail" value="yourwise@email.com" readonly>
-                        <button type="button" class="copy-btn" data-copy="#wiseEmail">Copy</button>
-                        <small>Send payment to <b>yourwise@email.com</b> via Wise. Enter your Wise transaction reference below.</small>
-                        <input type="text" id="wiseRef" name="wiseRef" placeholder="Wise Reference" required>
-                    </div>
-                </div>
-
-                <!-- MoneyGram Fields -->
-                <div id="moneygramFields" class="payment-fields" style="display: none;">
-                    <div class="form-group">
-                        <label for="moneygramPhoneNumber">Pay to MoneyGram Account:</label>
-                        <input type="text" id="moneygramPhoneNumber" name="moneygramPhoneNumber" value="+1234567890" readonly>
-                        <button type="button" class="copy-btn" data-copy="#moneygramPhoneNumber">Copy</button>
-                        <small>Send payment to <b>+1234567890</b> via MoneyGram. Enter your MoneyGram reference number below.</small>
-                        <input type="text" id="moneygramRef" name="moneygramRef" placeholder="MoneyGram Reference" required>
-                    </div>
-                </div>
-                <!-- Bitcoin Fields -->
-                <div id="bitcoinFields" class="payment-fields" style="display: none;">
-                    <div class="form-group">
-                        <label for="bitcoinWalletAddress">Pay to Bitcoin Wallet Address:</label>
-                        <input type="text" id="bitcoinWalletAddress" name="bitcoinWalletAddress" value="1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa" readonly>
-                        <button type="button" class="copy-btn" data-copy="#bitcoinWalletAddress">Copy</button>
-                        <small>Send BTC to the above address. Enter your transaction hash below.</small>
-                        <input type="text" id="bitcoinTxn" name="bitcoinTxn" placeholder="Bitcoin Transaction Hash" required>
-                    </div>
-                </div>
-            </form>
-            <br><br><br>
-            <!-- Payment Buttons -->
-            <!-- <div id="paypal-button-container" style="display: none;"></div> -->
-            <div id="venmo-button-container" style="display: none;">
-                <button id="venmo-button">Pay with Venmo</button>
+     <!-- Booking Modal -->
+   <div id="bookingModal" class="modal">
+     <div class="modal-content">
+       <span class="close">&times;</span>
+       <span class="back">&#8592;</span>
+       <h2>Book Your Dream Trip</h2>
+       <form id="bookingForm">
+         <div class="form-group">
+           <label for="name">Full Name:</label>
+           <input type="text" id="name" name="name" required>
+         </div>
+         <div class="form-group">
+           <label for="email">Email:</label>
+           <input type="email" id="email" name="email" required>
+         </div>
+         <div class="form-group">
+           <label for="destination">Destination:</label>
+           <select id="destination" name="destination" required onchange="updatePrice()" style="background-color: black;color:whitesmoke">
+             <option value="">Select a destination</option>
+             <option value="paris">Paris, France - $1000</option>
+             <option value="tokyo">Tokyo, Japan - $1200</option>
+             <option value="newyork">New York, USA - $800</option>
+             <option value="bali">Bali, Indonesia - $900</option>
+             <option value="rome">Rome, Italy - $1100</option>
+           </select>
+         </div>
+         <div class="form-group">
+           <label for="price">Price:</label>
+           <input type="text" id="price" name="price" readonly>
+         </div>
+         <div class="form-group">
+           <label for="departureDate">Departure Date:</label>
+           <input type="date" id="departureDate" name="departureDate" required>
+         </div>
+         <div class="form-group">
+           <label for="returnDate">Return Date:</label>
+           <input type="date" id="returnDate" name="returnDate" required>
+           <span id="dateError" class="error"></span>
+         </div>
+         <div class="form-group">
+           <label for="travelers">Number of Travelers:</label>
+           <input type="number" id="travelers" name="travelers" min="1" required>
+         </div>
+         <div class="form-group">
+           <label for="paymentMethod">Payment Method:</label>
+           <select id="paymentMethod" name="paymentMethod" required onchange="togglePaymentFields()" style="background-color: black; color:whitesmoke;">
+             <option value="">Payment Options</option>
+             <option value="mpesa">M-Pesa</option>
+             <option value="donate">PayPal or card ~~~ Recommended </option>
+             <option value="venmo">Venmo</option>
+             <option value="cashapp">CashApp</option>
+             <option value="moneygram">MoneyGram</option>
+             <option value="sendwave">Sendwave</option>
+             <option value="wise">Wise</option>
+             <option value="bitcoin">Bitcoin</option>
+             <option value="fastlane">Fastlane </option>
+           </select>
+         </div>
+   
+         <!-- M-Pesa Fields -->
+         <div id="mpesaFields" style="display: none;">
+           <div class="form-group">
+             <label for="mpesaAccountNumber">M-Pesa Account Number:</label>
+             <input type="text" id="mpesaAccountNumber" name="mpesaAccountNumber" required>
+           </div>
+           <div class="form-group">
+             <label for="mpesaOption">M-Pesa Payment Option:</label>
+             <select id="mpesaOption" name="mpesaOption" required>
+               <option value="paybill">Paybill</option>
+               <option value="till">Till Number</option>
+               <option value="mpesaNumber">M-Pesa Number</option>
+             </select>
+           </div>
+           <div class="form-group" id="paybillFields" style="display: none;">
+             <label for="paybillNumber">Paybill Number:</label>
+             <input type="text" id="paybillNumber" value="123456" readonly>
+           </div>
+           <div class="form-group" id="tillFields" style="display: none;">
+             <label for="tillNumber">Till Number:</label>
+             <input type="text" id="tillNumber" value="654321" readonly>
+           </div>
+         </div>
+   
+         <!-- Venmo Fields -->
+         <div id="venmoFields" class="payment-fields" style="display: none;">
+           <div class="form-group">
+             <label for="venmoUsername">Pay to Venmo Account:</label>
+             <input type="text" id="venmoUsername" name="venmoUsername" value="@YourVenmoUsername" readonly>
+             <button type="button" class="copy-btn" data-copy="#venmoUsername">Copy</button>
+             <small>Open Venmo and send payment to <b>@YourVenmoUsername</b>. After payment, enter your Venmo transaction ID below.</small>
+             <input type="text" id="venmoTxnId" name="venmoTxnId" placeholder="Venmo Transaction ID" required>
+           </div>
+         </div>
+         <!-- PayPal Fields -->
+          <div id="paypalFields" class="payment-fields" style="display: none;">
+            <div class="form-group">
+              <!-- <label for="paypalEmail">PayPal Email:</label> -->
+              <input type="email" id="paypalEmail" name="paypalEmail" value="petergachuki1360@gmail.com" readonly>
+              <button type="button" class="copy-btn" data-copy="#paypalEmail">Copy</button>
+              <small>
+                Send payment to <b>petergachuki1360@gmail.com</b> via PayPal or use the button below. After payment, enter your PayPal transaction ID below.
+              </small>
             </div>
-            <div id="donate-button-vom  " style="display: none;">
-                <button id="donate-button">Pay Donation</button>
+          </div>
+         <!-- PayPal Fastlane Section -->
+          <div id="fastlaneFields" class="space-y-4 p-4 border rounded-xl shadow-sm bg-white " style="display: none;">
+            <!-- Header -->
+            <div class="form-group">
+              <h1 class="text-xl font-semibold text-gray-800">coming soon</h1>
             </div>
-            <div id="cashapp-button-container" style="display: none;">
-                <button id="cashapp-button">Pay with CashApp</button>
+          
+            <!-- PayPal Button Container -->
+            <div class="form-group">
+              <div id="fastlane-button-container" class="mt-2"></div>
             </div>
-            <div id="sendwave-button-container" style="display: none;">
-                <button id="sendwave-button">Pay with Sendwave</button>
-            </div>
-            <div id="moneygram-button-container" style="display: none;">
-                <button id="moneygram-button">Pay with MoneyGram</button>
-            </div>
-            <div id="wise-button-container" style="display: none;">
-                <button id="wise-button">Pay with Wise</button>
-            </div>
-            <div id="mpesa-button-container" style="display: none;">
-                <button id="mpesa-button" type="button">Pay with M-Pesa</button>
-            </div>
-            <div id="notification" style="display:none;color:green;text-align:center;margin-top:10px;">Thank you for booking your trip! We'll contact you shortly with more details.</div>
-        </div>
-    </div>
-
-    <!-- PayPal SDK -->
-    <script src="https://www.paypal.com/sdk/js?client-id=Ac1K7o2waqLR9_ml2gdEUtV0e6mVwdrSnXJuFMMwcGuH7vJB6vgHPCg3YLKS0xHpP-Rj-Kt8yNaF2e0r&currency=USD"></script>
+          </div>
+          
+    
+          
+   
+         <!-- Donate Fields -->
+         <div id="donateFields" class="payment-fields" style="display: none;">
+           <div class="form-group">
+             <label for="donorName">Your Name (optional):</label>
+             <input type="text" id="donorName" name="donorName" placeholder="Your name">
+           </div>
+           <div class="form-group">
+             <label for="donorMessage">Message (optional):</label>
+             <textarea id="donorMessagename="donorMessage" rows="2" placeholder="Leave a message"></textarea>
+           </div>
+           <div class="form-group">
+             <small>
+               <span id="donate-thankyou-msg" style="display:none;color:green;font-weight:600;">
+                 <i class="fas fa-heart"></i> Thank you for supporting GlobeTrotters!
+               </span>
+               <span id="donate-info-msg">
+                 Your donation helps us provide better services and support more travelers worldwide.
+               </span>
+             </small>
+           </div>
+           <div class="form-group">
+             <label for="donationAmount">Donation Amount (USD):</label>
+             <input type="number" id="donationAmount" name="donationAmount" min="1" placeholder="Enter amount" required>
+           </div>
+           <div class="form-group">
+             <div id="paypal-donate-button-container"></div>
+           </div>
+         </div>
+   
+         <!-- CashApp Fields -->
+         <div id="cashappFields" class="payment-fields" style="display: none;">
+           <div class="form-group">
+             <label for="cashappUsername">Pay to CashApp Account:</label>
+             <input type="text" id="cashappUsername" name="cashappUsername" value="$ Coming soon" readonly>
+             <button type="button" class="copy-btn" data-copy="#cashappUsername">Copy</button>
+             <small>Send payment to <b>$ coming soon</b> in CashApp. Enter your CashApp payment reference below.</small>
+             <input type="text" id="cashappTxnId" name="cashappTxnId" placeholder="CashApp Reference" required>
+           </div>
+         </div>
+   
+         <!-- Sendwave Fields -->
+         <div id="sendwaveFields" class="payment-fields" style="display: none;">
+           <div class="form-group">
+             <label for="sendwavePhoneNumber">Pay to Sendwave Account:</label>
+             <input type="text" id="sendwavePhoneNumber" name="sendwavePhoneNumber" value="+1234567890" readonly>
+             <button type="button" class="copy-btn" data-copy="#sendwavePhoneNumber">Copy</button>
+             <small>Send payment to <b>+1234567890</b> via Sendwave. Enter your Sendwave reference below.</small>
+             <input type="text" id="sendwaveRef" name="sendwaveRef" placeholder="Sendwave Reference" required>
+           </div>
+         </div>
+   
+         <!-- Wise Fields -->
+         <div id="wiseFields" class="payment-fields" style="display: none;">
+           <div class="form-group">
+             <label for="wiseEmail">Wise Pay Account:</label>
+             <input type="email" id="wiseEmail" name="wiseEmail" value="yourwise@email.com" readonly>
+             <button type="button" class="copy-btn" data-copy="#wiseEmail">Copy</button>
+             <small>Send payment to <b>yourwise@email.com</b> via Wise. Enter your Wise transaction reference below.</small>
+             <input type="text" id="wiseRef" name="wiseRef" placeholder="Wise Reference" required>
+           </div>
+         </div>
+   
+         <!-- MoneyGram Fields -->
+         <div id="moneygramFields" class="payment-fields" style="display: none;">
+           <div class="form-group">
+             <label for="moneygramPhoneNumber">Pay to MoneyGram Account:</label>
+             <input type="text" id="moneygramPhoneNumber" name="moneygramPhoneNumber" value="+1234567890" readonly>
+             <button type="button" class="copy-btn" data-copy="#moneygramPhoneNumber">Copy</button>
+             <small>Send payment to <b>+1234567890</b> via MoneyGram. Enter your MoneyGram reference number below.</small>
+             <input type="text" id="moneygramRef" name="moneygramRef" placeholder="MoneyGram Reference" required>
+           </div>
+         </div>
+   
+         <!-- Bitcoin Fields -->
+         <div id="bitcoinFields" class="payment-fields" style="display: none;">
+           <div class="form-group">
+             <label for="bitcoinWalletAddress">Pay to Bitcoin Wallet Address:</label>
+             <input type="text" id="bitcoinWalletAddress" name="bitcoinWalletAddress" value="1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa" readonly>
+             <button type="button" class="copy-btn" data-copy="#bitcoinWalletAddress">Copy</button>
+             <small>Send BTC to the above address. Enter your transaction hash below.</small>
+             <input type="text" id="bitcoinTxn" name="bitcoinTxn" placeholder="Bitcoin Transaction Hash" required>
+           </div>
+         </div>
+   
+         <br><br><br>
+   
+         <!-- Payment Buttons -->
+         <div id="venmo-button-container" style="display: none;">
+           <button id="venmo-button" type="button">Pay with Venmo</button>
+         <div id="fastlane-button-container" style="display: none;">
+           <button id="fastlane-button" type="button">fastlane</button>
+         </div>
+         <div id="donate-button-vom" style="display: none;">
+           <button id="donate-button" type="button">Pay Donation</button>
+         </div>
+         <div id="cashapp-button-container" style="display: none;">
+           <button id="cashapp-button" type="button">Pay with CashApp</button>
+         </div>
+         <div id="sendwave-button-container" style="display: none;">
+           <button id="sendwave-button" type="button">Pay with Sendwave</button>
+         </div>
+         <div id="moneygram-button-container" style="display: none;">
+           <button id="moneygram-button" type="button">Pay with MoneyGram</button>
+         </div>
+         <div id="wise-button-container" style="display: none;">
+           <button id="wise-button" type="button">Pay with Wise</button>
+         </div>
+         <div id="mpesa-button-container" style="display: none;">
+           <button id="mpesa-button" type="button">Pay with M-Pesa</button>
+         </div>
+   
+         <div id="notification" style="display:none;color:green;text-align:center;margin-top:10px;">
+           Thank you for booking your trip! We'll contact you shortly with more details.
+         </div>
+       </form>
+     </div>
+   </div>
     <main>
         <!-- Services -->
         <!-- Services Section (Cooler Version) -->
@@ -1006,7 +1020,7 @@
         <div style="text-align:center;font-size:0.98em;color:#b3e5fc;">
             &copy; 2023-2024 GlobeTrotters. All rights reserved. | <a href="privacy.html" style="color:#43e97b;text-decoration:underline;">Privacy Policy</a>
         </div>
-        <style>
+         <style>
             .footer-container a:hover { color: #43e97b !important; }
             .footer-container ul li { margin-bottom: 6px; }
             @media (max-width: 900px) {
@@ -1044,408 +1058,301 @@
                     error.style.display = "block";
                 });
             });
-        </script>
+        </script> 
     </footer>
 
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-    <script>
-        // Booking Modal Logic
-        const modal = document.getElementById("bookingModal");
-        const btn = document.getElementById("bookTripBtn");
-        const span = document.getElementsByClassName("close")[0];
-        const back = document.getElementsByClassName("back")[0];
-        const form = document.getElementById("bookingForm");
-        const formGroups = document.querySelectorAll('.form-group');
-        const notification = document.getElementById("notification");
-        const departureDateInput = document.getElementById('departureDate');
-        const returnDateInput = document.getElementById('returnDate');
-
-        btn.onclick = function() {
-            modal.style.display = "block";
-            animateFormGroups();
-        }
-        span.onclick = function() {
-            modal.style.display = "none";
-        }
-        back.onclick = function() {
-            modal.style.display = "none";
-        }
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-        form.onsubmit = function(e) {
-            e.preventDefault();
-            if (validateForm()) {
-                sendEmail();
-                showNotification();
-                modal.style.display = "none";
-                form.reset();
-            }
-        }
-        function validateForm() {
-            const departureDate = new Date(departureDateInput.value);
-            const returnDate = new Date(returnDateInput.value);
-            const dateError = document.getElementById('dateError');
-            if (returnDate < departureDate) {
-                dateError.textContent = "Return date cannot be earlier than departure date.";
-                return false;
-            } else {
-                dateError.textContent = "";
-                return true;
-            }
-        }
-        function sendEmail() {
-            const templateParams = {
-                name: document.getElementById('name').value,
-                email: document.getElementById('email').value,
-                destination: document.getElementById('destination').value,
-                departureDate: departureDateInput.value,
-                returnDate: returnDateInput.value,
-                travelers: document.getElementById('travelers').value
-            };
-            emailjs.send('ZBYfWgHXtvMpig0L1', 'template_y7nbvfu', templateParams)
-                .then(function(response) {
-                    console.log('SUCCESS!', response.status, response.text);
-                }, function(error) {
-                    console.log('FAILED...', error);
-                });
-        }
-        // Set minimum date for departure to today
-        const today = new Date().toISOString().split('T')[0];
-        departureDateInput.min = today;
-        departureDateInput.addEventListener('change', function() {
-            returnDateInput.min = this.value;
-            returnDateInput.value = '';
-        });
-        departureDateInput.addEventListener('change', validateForm);
-        returnDateInput.addEventListener('change', validateForm);
-        function showNotification() {
-            notification.style.display = "block";
-            setTimeout(() => {
-                notification.style.display = "none";
-            }, 5000);
-        }
-        function animateFormGroups() {
-            formGroups.forEach((group, index) => {
-                setTimeout(() => {
-                    group.classList.add('visible');
-                }, index * 100);
-            });
-        }
-    </script>
-    <script>
-        // Price Calculation
-        const destinationPrices = {
-            paris: 1000,
-            tokyo: 1200,
-            newyork: 800,
-            bali: 900,
-            rome: 1100
-        };
-        function updatePrice() {
-            const destination = document.getElementById('destination').value;
-            const travelers = parseInt(document.getElementById('travelers').value, 10) || 1;
-            const basePrice = destinationPrices[destination] || 0;
-            const totalPrice = basePrice * travelers;
-            document.getElementById('price').value = '$' + totalPrice;
-        }
-        document.getElementById('travelers').addEventListener('input', updatePrice);
-    </script>
-    <script>
-        // Payment Fields Toggle
-        function togglePaymentFields() {
-            const paymentMethod = document.getElementById('paymentMethod').value;
-            const fields = [
-                'paypal-button-container', 'mpesaFields', 'mpesa-button-container',
-                'venmoFields', 'venmo-button-container', 'cashappFields', 'cashapp-button-container',
-                'moneygramFields', 'moneygram-button-container', 'sendwaveFields', 'sendwave-button-container',
-                'wiseFields', 'wise-button-container', 'bitcoinFields','donateFields'
-            ];
-            fields.forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.style.display = 'none';
-            });
-            switch (paymentMethod) {
-                case 'mpesa':
-                    document.getElementById('mpesaFields').style.display = 'block';
-                    document.getElementById('mpesa-button-container').style.display = 'block';
-                    break;
-                case 'paypal':
-                    document.getElementById('paypalFields').style.display = 'block';
-                    <!-- document.getElementById('paypal-button-container').style.display = 'block'; -->
-                    break;
-                case 'venmo':
-                    document.getElementById('venmoFields').style.display = 'block';
-                    document.getElementById('venmo-button-container').style.display = 'block';
-                    break;
-                case 'cashapp':
-                    document.getElementById('cashappFields').style.display = 'block';
-                    document.getElementById('cashapp-button-container').style.display = 'block';
-                    break;
-                case 'moneygram':
-                    document.getElementById('moneygramFields').style.display = 'block';
-                    document.getElementById('moneygram-button-container').style.display = 'block';
-                    break;
-                case 'sendwave':
-                    document.getElementById('sendwaveFields').style.display = 'block';
-                    document.getElementById('sendwave-button-container').style.display = 'block';
-                    break;
-                case 'wise':
-                    document.getElementById('wiseFields').style.display = 'block';
-                    document.getElementById('wise-button-container').style.display = 'block';
-                    break;
-                case 'bitcoin':
-                    document.getElementById('bitcoinFields').style.display = 'block';
-                    break;
-                case 'donate':
-                    document.getElementById('donateFields').style.display = 'block';
-                    document.getElementById('donate-button-container').style.display = 'block';
-
-                    break;
-            }
-        }
-        document.getElementById('mpesaOption').addEventListener('change', function () {
-            const selectedOption = this.value;
-            document.getElementById('paybillFields').style.display = selectedOption === 'paybill' ? 'block' : 'none';
-            document.getElementById('tillFields').style.display = selectedOption === 'till' ? 'block' : 'none';
-        });
-    </script>
-    <script>
-        // PayPal Button
-        paypal.Buttons({
-            createOrder: function (data, actions) {
-                return actions.order.create({
-                    purchase_units: [{
-                        amount: {
-                            value: document.getElementById('price').value.replace('$', '')
-                        }
-                    }]
-                });
-            },
-            onApprove: function (data, actions) {
-                return actions.order.capture().then(function (details) {
-                    alert('Transaction completed by ' + details.payer.name.given_name);
-                    document.getElementById('bookingForm').submit();
-                });
-            }
-        }).render('#paypal-button-container');
-    </script>
-    <script>
-        // M-Pesa Button Example
-        document.getElementById('mpesa-button').addEventListener('click', function() {
-            const phoneNumber = prompt("Enter your M-Pesa phone number:");
-            const amount = prompt("Enter the amount to pay:");
-            if (!phoneNumber || !amount) {
-                alert("Phone number and amount are required.");
-                return;
-            }
-            fetch('/api/mpesa/pay', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ phoneNumber, amount })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('Payment initiated. Please complete the payment on your phone.');
-                } else {
-                    alert('Payment failed: ' + (data.message || 'Unknown error'));
-                }
-            })
-            .catch(error => {
-                alert('Error initiating payment: ' + error.message);
-            });
-        });
-    </script>
-    <script>
-        // Testimonials Carousel
-        const testimonialsContainer = document.getElementById('testimonialsContainer');
-        const testimonials = testimonialsContainer.children;
-        let currentTestimonial = 0;
-        function showNextTestimonial() {
-            testimonials[currentTestimonial].classList.remove('active');
-            currentTestimonial = (currentTestimonial + 1) % testimonials.length;
-            testimonials[currentTestimonial].classList.add('active');
-        }
-        setInterval(showNextTestimonial, 5000);
-    </script>
-    <style>
-        .testimonials-carousel {
-            position: relative;
-            min-height: 180px;
-        }
-        .testimonial {
-            opacity: 0;
-            transition: opacity 0.7s;
-            position: absolute;
-            left: 0; right: 0;
-            top: 0;
-            width: 100%;
-            pointer-events: none;
-        }
-        .testimonial.active {
-            opacity: 1;
-            position: relative;
-            pointer-events: auto;
-        }
-    </style>
-    <script>
-        // Feedback Form (no JS needed, default submit)
-        document.getElementById('feedbackForm').addEventListener('submit', function(e) {
-            // Default form submission
-        });
-    </script>
-    <script>
-        (function() {
-            emailjs.init("UEI7toHsboKO6jWLVHZCM");
-        })();
-    </script>
-    <script>
-        // Copy-to-clipboard for payment fields
-        document.querySelectorAll('.copy-btn').forEach(function(btn) {
-            btn.addEventListener('click', function() {
-                const selector = btn.getAttribute('data-copy');
-                const input = document.querySelector(selector);
-                if (input) {
-                    const wasReadOnly = input.hasAttribute('readonly');
-                    input.removeAttribute('readonly');
-                    input.select();
-                    input.setSelectionRange(0, 99999);
-                    document.execCommand('copy');
-                    if (wasReadOnly) input.setAttribute('readonly', '');
-                    btn.textContent = 'Copied!';
-                    setTimeout(() => btn.textContent = 'Copy', 1500);
-                }
-            });
-        });
-    </script>
-    <script>
-        // Newsletter Modal Logic
-        const newsletterModal = document.getElementById('newsletter-modal');
-        const newsletterClose = document.getElementById('newsletter-close');
-        const newsletterForm = document.getElementById('newsletter-form');
-        const newsletterSuccess = document.getElementById('newsletter-success');
-        const newsletterError = document.getElementById('newsletter-error');
-        setTimeout(() => {
-            if (!localStorage.getItem('newsletterSubscribed')) {
-                newsletterModal.style.display = 'block';
-            }
-        }, 4000);
-        newsletterClose.onclick = function() {
-            newsletterModal.style.display = 'none';
-        };
-        window.onclick = function(event) {
-            if (event.target == newsletterModal) {
-                newsletterModal.style.display = 'none';
-            }
-        };
-        newsletterForm.onsubmit = function(e) {
-            e.preventDefault();
-            const email = document.getElementById('newsletter-email').value;
-            const consent = document.getElementById('newsletter-consent').checked;
-            if (!consent) {
-                newsletterError.textContent = "You must agree to receive emails.";
-                newsletterError.style.display = "block";
-                return;
-            }
-            fetch('https://api.emailjs.com/api/v1.0/email/subscribe', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email })
-            })
-            .then(res => {
-                if (res.ok) {
-                    newsletterSuccess.style.display = "block";
-                    newsletterError.style.display = "none";
-                    localStorage.setItem('newsletterSubscribed', 'true');
-                    setTimeout(() => {
-                        newsletterModal.style.display = 'none';
-                        newsletterSuccess.style.display = "none";
-                        newsletterForm.reset();
-                    }, 2000);
-                } else {
-                    throw new Error('Subscription failed');
-                }
-            })
-            .catch(() => {
-                newsletterError.textContent = "Subscription failed. Please try again.";
-                newsletterError.style.display = "block";
-            });
-        };
-    </script>
-    <script>
-        // Support Chat Widget
-        const chatMessages = document.getElementById('chat-messages');
-        const chatForm = document.getElementById('chat-form');
-        const chatInput = document.getElementById('chat-input');
-        function getSmartReply(message) {
-            const msg = message.toLowerCase();
-            if (msg.includes('hello') || msg.includes('hi')) return "Hello! 👋 How can I assist you today?";
-            if (msg.includes('book') || msg.includes('trip')) return "To book a trip, click the 'Book a Trip' button at the top or let me know your destination and dates!";
-            if (msg.includes('price') || msg.includes('cost')) return "Our prices vary by destination. Please specify your destination for a quote.";
-            if (msg.includes('support') || msg.includes('help')) return "I'm here to help 24/7! Please describe your issue or question.";
-            if (msg.includes('contact') || msg.includes('agent')) return "You can reach us by email at info@globetrotters.com or call +123-456-7890. For urgent matters, reply 'urgent'.";
-            if (msg.includes('urgent')) return "An agent has been notified and will respond as soon as possible. Please provide your email or phone for follow-up.";
-            if (msg.includes('payment')) return "We accept M-Pesa, PayPal, Venmo, CashApp, MoneyGram, Sendwave, Wise, and Bitcoin. Which would you like to use?";
-            if (msg.includes('newsletter')) return "You can subscribe to our newsletter using the popup or at the bottom of this page!";
-            if (msg.includes('thanks') || msg.includes('thank you')) return "You're welcome! If you need anything else, just ask.";
-            return "Thank you for your message! A support agent will reply soon. Meanwhile, you can ask about booking, payments, or destinations.";
-        }
-        function appendMessage(text, sender = 'user') {
-            const msgDiv = document.createElement('div');
-            msgDiv.style.margin = '8px 0';
-            msgDiv.style.display = 'flex';
-            msgDiv.style.flexDirection = sender === 'user' ? 'row-reverse' : 'row';
-            msgDiv.innerHTML = `<div style="max-width:75%;padding:8px 12px;border-radius:16px;${sender === 'user' ? 'background:#009be3;color:#fff;' : 'background:#333;color:#fff;'}">${text}</div>`;
-            chatMessages.appendChild(msgDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-        appendMessage("Hi! 👋 I'm your 24/7 GlobeTrotters support agent. How can I help you today?", 'agent');
-        chatForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const userMsg = chatInput.value.trim();
-            if (!userMsg) return;
-            appendMessage(userMsg, 'user');
-            chatInput.value = '';
-            setTimeout(() => {
-                const reply = getSmartReply(userMsg);
-                appendMessage(reply, 'agent');
-            }, 700 + Math.random() * 600);
-        });
-    </script>
-
-<!-- PayPal SDK for Donate Button -->
-<script src="https://www.paypal.com/sdk/js?client-id=Ac1K7o2waqLR9_ml2gdEUtV0e6mVwdrSnXJuFMMwcGuH7vJB6vgHPCg3YLKS0xHpP-Rj-Kt8yNaF2e0r&currency=USD&components=buttons&enable-funding=card"></script>
+<!-- Load EmailJS -->
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script>
-paypal.Buttons({
-    style: {
-        layout: 'vertical',
-        color: 'gold',
-        shape: 'rect',
-        label: 'donate'
-    },
-    createOrder: function(data, actions) {
-        const amount = document.getElementById('donationAmount') ? (document.getElementById('donationAmount').value || '1.00') : '1.00';
-        return actions.order.create({
-            purchase_units: [{
-                amount: {
-                    value: amount
-                }
-            }]
-        });
-    },
-    onApprove: function(data, actions) {
-        return actions.order.capture().then(function(details) {
-            if (document.getElementById('donate-thankyou-msg')) {
-                document.getElementById('donate-thankyou-msg').style.display = 'inline';
-            }
-            console.log('Donation completed by ' + (details.payer.name && details.payer.name.given_name ? details.payer.name.given_name : 'Donor'));
-        });
+  (function() {
+    emailjs.init("UEI7toHsboKO6jWLVHZCM");
+  })();
+</script>
+
+<!-- PayPal SDK (load once) -->
+<script src="https://www.paypal.com/sdk/js?client-id=Ac1K7o2waqLR9_ml2gdEUtV0e6mVwdrSnXJuFMMwcGuH7vJB6vgHPCg3YLKS0xHpP-Rj-Kt8yNaF2e0r&currency=USD&components=buttons&enable-funding=card"></script>
+<!-- <script src="https://www.paypal.com/sdk/js?client-id=ARJXg1vHK1GN9bXONqPNoyUYfqHNylkZhuaVgIJkva61eQS7PMNatHczwjhYAWzLMwjYrCZfEz-ff4r6&currency=USD&components=buttons&enable-funding=card"></script> -->
+
+<script>
+  // Booking Modal Logic
+  const modal = document.getElementById("bookingModal");
+  const btn = document.getElementById("bookTripBtn");
+  const span = document.getElementsByClassName("close")[0];
+  const back = document.getElementsByClassName("back")[0];
+  const form = document.getElementById("bookingForm");
+  const formGroups = document.querySelectorAll('.form-group');
+  const notification = document.getElementById("notification");
+  const departureDateInput = document.getElementById('departureDate');
+  const returnDateInput = document.getElementById('returnDate');
+
+  btn.onclick = () => {
+    modal.style.display = "block";
+    animateFormGroups();
+  };
+  span.onclick = () => modal.style.display = "none";
+  back.onclick = () => modal.style.display = "none";
+  window.onclick = (event) => {
+    if (event.target === modal) modal.style.display = "none";
+  };
+
+  form.onsubmit = (e) => {
+    e.preventDefault();
+    if (validateForm()) {
+      sendEmail();
+      showNotification();
+      modal.style.display = "none";
+      form.reset();
+      updatePrice(); // reset price display
+      togglePaymentFields(); // reset payment fields display
     }
+  };
+
+  function validateForm() {
+    const departureDate = new Date(departureDateInput.value);
+    const returnDate = new Date(returnDateInput.value);
+    const dateError = document.getElementById('dateError');
+    if (returnDate < departureDate) {
+      dateError.textContent = "Return date cannot be earlier than departure date.";
+      return false;
+    } else {
+      dateError.textContent = "";
+      return true;
+    }
+  }
+
+  function sendEmail() {
+    const templateParams = {
+      name: document.getElementById('name').value,
+      email: document.getElementById('email').value,
+      destination: document.getElementById('destination').value,
+      departureDate: departureDateInput.value,
+      returnDate: returnDateInput.value,
+      travelers: document.getElementById('travelers').value
+    };
+    emailjs.send('ZBYfWgHXtvMpig0L1', 'template_y7nbvfu', templateParams)
+      .then(response => console.log('SUCCESS!', response.status, response.text))
+      .catch(error => console.log('FAILED...', error));
+  }
+
+  // Set minimum date for departure to today
+  const today = new Date().toISOString().split('T')[0];
+  departureDateInput.min = today;
+  departureDateInput.addEventListener('change', () => {
+    returnDateInput.min = departureDateInput.value;
+    if (returnDateInput.value < departureDateInput.value) {
+      returnDateInput.value = '';
+    }
+    validateForm();
+  });
+  returnDateInput.addEventListener('change', validateForm);
+
+  function showNotification() {
+    notification.style.display = "block";
+    setTimeout(() => notification.style.display = "none", 5000);
+  }
+
+  function animateFormGroups() {
+    formGroups.forEach((group, index) => {
+      setTimeout(() => group.classList.add('visible'), index * 100);
+    });
+  }
+
+  // Price Calculation
+  const destinationPrices = {
+    paris: 1000,
+    tokyo: 1200,
+    newyork: 800,
+    bali: 900,
+    rome: 1100
+  };
+
+  function updatePrice() {
+    const destination = document.getElementById('destination').value;
+    const travelers = parseInt(document.getElementById('travelers').value, 10) || 1;
+    const basePrice = destinationPrices[destination] || 0;
+    const totalPrice = basePrice * travelers;
+    const priceInput = document.getElementById('price');
+    if (priceInput) {
+      priceInput.value = totalPrice ? '$' + totalPrice : '';
+    }
+  }
+
+  document.getElementById('travelers')?.addEventListener('input', updatePrice);
+  document.getElementById('destination')?.addEventListener('change', updatePrice);
+
+  // Payment Fields Toggle
+  function togglePaymentFields() {
+    const paymentMethod = document.getElementById('paymentMethod')?.value;
+    if (!paymentMethod) return;
+
+    const fields = [
+      'paypalFields', 'paypal-button-container', 'mpesaFields', 'mpesa-button-container',
+      'venmoFields', 'venmo-button-container', 'cashappFields', 'cashapp-button-container',
+      'moneygramFields', 'moneygram-button-container', 'sendwaveFields', 'sendwave-button-container',
+      'wiseFields', 'wise-button-container', 'bitcoinFields', 'donateFields', 'donate-button-container',
+      'fastlaneFields', 'fastlane-button-container'
+    ];
+
+    fields.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.style.display = 'none';
+    });
+
+    switch (paymentMethod) {
+      case 'mpesa':
+        document.getElementById('mpesaFields')?.style.setProperty('display', 'block');
+        document.getElementById('mpesa-button-container')?.style.setProperty('display', 'block');
+        break;
+      case 'paypal':
+        document.getElementById('paypalFields')?.style.setProperty('display', 'block');
+        document.getElementById('paypal-button-container')?.style.setProperty('display', 'block');
+        break;
+      case 'fastlane':
+        document.getElementById('fastlaneFields')?.style.setProperty('display', 'block');
+        document.getElementById('fastlane-button-container')?.style.setProperty('display', 'block');
+        break;
+      case 'venmo':
+        document.getElementById('venmoFields')?.style.setProperty('display', 'block');
+        document.getElementById('venmo-button-container')?.style.setProperty('display', 'block');
+        break;
+      case 'cashapp':
+        document.getElementById('cashappFields')?.style.setProperty('display', 'block');
+        document.getElementById('cashapp-button-container')?.style.setProperty('display', 'block');
+        break;
+      case 'moneygram':
+        document.getElementById('moneygramFields')?.style.setProperty('display', 'block');
+        document.getElementById('moneygram-button-container')?.style.setProperty('display', 'block');
+        break;
+      case 'sendwave':
+        document.getElementById('sendwaveFields')?.style.setProperty('display', 'block');
+        document.getElementById('sendwave-button-container')?.style.setProperty('display', 'block');
+        break;
+      case 'wise':
+        document.getElementById('wiseFields')?.style.setProperty('display', 'block');
+        document.getElementById('wise-button-container')?.style.setProperty('display', 'block');
+        break;
+      case 'bitcoin':
+        document.getElementById('bitcoinFields')?.style.setProperty('display', 'block');
+        break;
+      case 'donate':
+        document.getElementById('donateFields')?.style.setProperty('display', 'block');
+        document.getElementById('donate-button-container')?.style.setProperty('display', 'block');
+        break;
+      default:
+        // No payment method selected or unknown
+        break;
+    }
+  }
+
+  document.getElementById('paymentMethod')?.addEventListener('change', togglePaymentFields);
+
+  // M-Pesa Option toggle for paybill/till fields
+  document.getElementById('mpesaOption')?.addEventListener('change', function () {
+    const val = this.value;
+    document.getElementById('paybillFields')?.style.setProperty('display', val === 'paybill' ? 'block' : 'none');
+    document.getElementById('tillFields')?.style.setProperty('display', val === 'till' ? 'block' : 'none');
+  });
+<!-- Main Payment Button -->
+paypal.Buttons({
+  createOrder: function(data, actions) {
+    const priceValue = document.getElementById('price')?.value.replace('$', '') || '0';
+    return actions.order.create({
+      purchase_units: [{
+        amount: { value: priceValue }
+      }]
+    });
+  },
+  onApprove: function(data, actions) {
+    return actions.order.capture().then(function(details) {
+      // ✅ Log transaction details
+      console.log('Main Payment - Transaction Completed!');
+      console.log('Payer Name:', details.payer.name?.given_name);
+      console.log('Payer Email:', details.payer.email_address);
+      console.log('Transaction ID:', details.id);
+      console.log('Status:', details.status);
+
+      alert('Transaction completed by ' + (details.payer.name?.given_name || 'payer'));
+
+      // ✅ Submit form (if exists)
+      form?.submit();
+    });
+  },
+  onError: function(err) {
+    console.error('Main Payment Error:', err);
+    alert('Error during payment.');
+  }
+}).render('#paypal-button-container');
+
+//  donate button
+paypal.Buttons({
+  style: {
+    layout: 'vertical',
+    color: 'gold',
+    shape: 'rect',
+    label: 'donate'
+  },
+  createOrder: function(data, actions) {
+    const amount = document.getElementById('donationAmount')?.value || '1.00';
+    return actions.order.create({
+      purchase_units: [{
+        amount: { value: amount }
+      }]
+    });
+  },
+  onApprove: function(data, actions) {
+    return actions.order.capture().then(function(details) {
+      document.getElementById('donate-thankyou-msg')?.style.setProperty('display', 'inline');
+
+      // ✅ Log donation transaction details
+      console.log('Donation Completed!');
+      console.log('Donor Name:', details.payer.name?.given_name);
+      console.log('Donor Email:', details.payer.email_address);
+      console.log('Transaction ID:', details.id);
+      console.log('Status:', details.status);
+    });
+  },
+  onError: function(err) {
+    console.error('Donation Payment Error:', err);
+    alert('Error during donation.');
+  }
 }).render('#paypal-donate-button-container');
+
+
+  // Copy-to-clipboard buttons
+  document.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const input = document.querySelector(btn.dataset.copy);
+      if (!input) return;
+      navigator.clipboard.writeText(input.value).then(() => {
+        btn.textContent = "Copied!";
+        setTimeout(() => (btn.textContent = "Copy"), 2000);
+      });
+    });
+  });
+
+  // M-Pesa payment button example
+  document.getElementById('mpesa-button')?.addEventListener('click', () => {
+    const phoneNumber = prompt("Enter your M-Pesa phone number:");
+    const amount = prompt("Enter the amount to pay:");
+    if (!phoneNumber || !amount) {
+      alert("Phone number and amount are required.");
+      return;
+    }
+    fetch('/api/mpesa/pay', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ phoneNumber, amount })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        alert('Payment initiated. Please complete the payment on your phone.');
+      } else {
+        alert('Payment failed: ' + (data.message || 'Unknown error'));
+      }
+    })
+    .catch(err => alert('Error initiating payment: ' + err.message));
+  });
 </script>
 
 
